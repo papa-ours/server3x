@@ -12,6 +12,7 @@ import copy
 class Server():
   def __init__(self):
     self._gameService = GameService()
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "gettingstarted.settings")
     self._app = Flask(__name__)
     CORS(self._app, resources={r"/api/*": {"origins": "*"}})
     self.initApp()
@@ -88,7 +89,7 @@ class Server():
       return jsonify(self._clients[key].getNextTurn())
 
   def run(self):
-    self._app.run()
+    self._app.run(threaded=True)
 
   def uniqueKey(self):
     SIZE = 12
