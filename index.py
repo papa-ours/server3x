@@ -89,7 +89,7 @@ class Server():
       return jsonify(self._clients[key].getNextTurn())
 
   def run(self, port=5000):
-    self._app.run(port=port, threaded=True)
+    self._app.run(port=port, host='0.0.0.0', threaded=True)
 
   def uniqueKey(self):
     SIZE = 12
@@ -101,4 +101,5 @@ class Server():
 
 def createApp():
   server = Server()
-  server.run(os.environ.get('PORT', 5001))
+  port = int(os.environ.get('PORT', 5000))
+  server.run(port)
