@@ -1,1 +1,1 @@
-web: gunicorn "index:createApp()"
+web: gunicorn "index:createApp()" --log-file=-
