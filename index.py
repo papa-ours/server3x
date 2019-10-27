@@ -99,5 +99,8 @@ class Server():
     return key
 
 app = Server()
-port = int(os.environ.get('PORT', 5000))
-app.run(port)
+
+
+if __name__ == '__name__':
+  port = int(os.environ.get('PORT', 5000))
+  app.run(port)
