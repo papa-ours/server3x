@@ -18,6 +18,9 @@ class Server():
     self.initApp()
     self._clients = {}
 
+  def __call__(self):
+    self.run()
+
   def initApp(self):
     @self._app.route('/api/games')
     def sendGames():
@@ -88,7 +91,8 @@ class Server():
         return jsonify(None)  
       return jsonify(self._clients[key].getNextTurn())
 
-  def run(self, port=5000):
+  def run(self):
+    port = int(os.environ.get('PORT', 5000))
     self._app.run(port=port, host='0.0.0.0')
 
   def uniqueKey(self):
@@ -98,9 +102,7 @@ class Server():
       key = binascii.hexlify(os.urandom(SIZE)).decode('utf-8')
     return key
 
-app = Server()
 
+def create_app():
+  Server().run()
 
-if __name__ == '__name__':
-  port = int(os.environ.get('PORT', 5000))
-  app.run(port)
