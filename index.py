@@ -98,6 +98,7 @@ class Server():
       key = binascii.hexlify(os.urandom(SIZE)).decode('utf-8')
     return key
 
-if __name__ == '__main__':
+
+def createApp():
   server = Server()
   server.run()
