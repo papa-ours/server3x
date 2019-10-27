@@ -1,1 +1,1 @@
-web: gunicorn "index:createApp()" --log-file=-
+web: gunicorn --bind 0.0.0.0:${PORT} "index:createApp()" --log-file=-
