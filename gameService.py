@@ -1,8 +1,6 @@
 from game import Game
-from PyInquirer import prompt
 from games import GAMES
 import random
-from termcolor import cprint
 
 class GameService:
   def __init__(self, games = []):
@@ -55,17 +53,6 @@ class GameService:
     if self.hasGame(gameName):
       player.pickChoice(self.getGame(gameName).getChoice(choiceName))
 
-  def askGame(self):
-    questions = [
-      {
-        'type': 'list',
-        'message': 'Select a game',
-        'name': 'game',
-        'choices': self.getNames()
-      }
-    ]
-    return self.getGame(prompt(questions)['game'])
-
   def formatChoices(self, game, choices):
     formatted = []
     for choiceName in choices:
@@ -89,42 +76,8 @@ class GameService:
         blocks.append({'name': choice})
     return blocks
 
-  def askPickChoice(self, game, choices, player):
-    questions = [
-      {
-        'type': 'list',
-        'message': player.getName() + ', pick a choice',
-        'name': 'choice',
-        'choices': self.formatChoices(game, choices)
-      }
-    ]
-    return prompt(questions)['choice']
-
   def blockRandomChoice(self, game, choices):
     while True:
       index = random.randint(0, len(choices) - 1)
       if game.getChoice(choices[index]).isAvailable():
         return choices[index]
-
-  def askBlockChoice(self, game, choices, blockingPlayer, pickingPlayer, numberOfBlocks):
-    if blockingPlayer is None:
-      return [self.blockRandomChoice(game, choices) for _ in range(numberOfBlocks)]
-
-    while True:
-      questions = [
-        {
-          'type': 'checkbox',
-          'message': blockingPlayer.getName() + ', block ' + str(numberOfBlocks) +\
-            (' choice' if numberOfBlocks == 1 else ' choices') + ' to ' + pickingPlayer.getName(),
-          'name': 'choice',
-          'choices': self.formatBlocks(game, choices)
-        }
-      ]
-      blocks = prompt(questions)['choice']
-
-      if len(blocks) is not numberOfBlocks:
-        cprint('You must block exactly ' + str(numberOfBlocks) +\
-          (' choice' if numberOfBlocks == 1 else ' choices'), 'red')
-        continue
-
-      return blocks

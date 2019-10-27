@@ -1,6 +1,4 @@
-from termcolor import cprint
 from player import Player
-from PyInquirer import prompt
 import random
 
 class PlayerService:
@@ -35,26 +33,6 @@ class PlayerService:
     except ValueError:
       return 'Number of players must be a number'
 
-  def askNumberOfPlayers(self):
-    questions = [
-      {
-        'type': 'input',
-        'message': 'Number of players',
-        'name': 'n_players',
-        'validate': self.validateNumberOfPlayers
-      }
-    ]
-    answers = prompt(questions)
-    self._numberOfPlayers = int(answers['n_players'])
-
-  def askPlayersName(self):
-    while len(self._players) < self._numberOfPlayers:
-      try:
-        name = self.askPlayerName(len(self._players) + 1)
-        self._players.append(Player(name))
-      except ValueError:
-        continue
-
   def hasPlayer(self, name):
     return self.getNames().count(name) > 0
 
@@ -63,17 +41,6 @@ class PlayerService:
     if type(playerValidation) is str:
       return playerValidation
     return 'Player\'s name must be unique' if self.hasPlayer(name) else True
-
-  def askPlayerName(self, n):
-    questions = [
-      {
-        'type': 'input',
-        'message': 'Name for player ' + str(n),
-        'name': 'name',
-        'validate': self.validatePlayerName
-      }
-    ]
-    return prompt(questions)['name']
 
   def getPlayer(self, name):
     if self.hasPlayer:

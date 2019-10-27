@@ -1,5 +1,3 @@
-from PyInquirer import prompt
-
 class ChoiceService:
   def __init__(self, max):
     self._max = max
@@ -21,28 +19,6 @@ class ChoiceService:
     n = self.validateInt(n)
     return 'Number of choices must be 0 and ' + str(self._numberOfChoices - 1) \
       if not (n >= 0 and n < self._numberOfChoices) else True
-
-  def askNumberOfChoices(self):
-    questions = [
-      {
-        'type': 'input',
-        'name': 'n_choices',
-        'message': 'Number of choices',
-        'validate': self.validateNumberOfChoices
-      }
-    ]
-    self._numberOfChoices = int(prompt(questions)['n_choices'])
-
-  def askNumberOfBlocks(self):
-    questions = [
-      {
-        'type': 'input',
-        'name': 'n_blocks',
-        'message': 'Number of blocks',
-        'validate': self.validateNumberOfBlocks
-      }
-    ]
-    self._numberOfBlocks = int(prompt(questions)['n_blocks'])
 
   def getNumberOfChoices(self):
     return self._numberOfChoices
