@@ -101,7 +101,4 @@ class Server():
 
 def createApp():
   server = Server()
-  try:
-    server.run(os.environ['PORT'])
-  except KeyError:
-    server.run()
+  server.run(os.environ.get('PORT', 5001))
